@@ -4,6 +4,11 @@ import SupermarketItem from "../SupermarketItem";
 import "./SupermarketList.css";
 
 const SupermarketList = ({ list, handleItemDelete }) => {
+  if (!list.length)
+    return (
+      <span className="supermarket-list__empty-message">List is empty</span>
+    );
+
   return (
     <ul className="supermarket-list">
       {list.map(item => (

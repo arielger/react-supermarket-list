@@ -1,5 +1,6 @@
 .add-new-modal {
   background-color: white;
+  margin-top: 140px;
   width: 400px;
   padding: 40px;
   border-radius: 6px;
@@ -10,7 +11,7 @@
 .add-new-modal__overlay {
   background-color: rgba(236, 240, 241, 0.9);
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
   position: fixed;
   top: 0;

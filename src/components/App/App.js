@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import shortid from "shortid";
 import SupermarketList from "../SupermarketList";
 import AddNewModal from "../AddNewModal";
+import * as api from "../../api";
 import "./App.css";
 
 class App extends Component {
@@ -9,6 +10,21 @@ class App extends Component {
     list: [],
     isAddNewModalOpen: false
   };
+
+  componentDidMount() {
+    this.updateItemsList();
+  }
+
+  updateItemsList() {
+    api
+      .getItems()
+      .then(list => {
+        this.setState({ list });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   openAddNewModal = () => {
     this.setState({ isAddNewModalOpen: true });
@@ -25,15 +41,19 @@ class App extends Component {
     };
 
     this.setState(oldState => ({
-      isAddNewModalOpen: false,
-      list: [...oldState.list, newItem]
+      list: oldState.list.concat(newItem)
     }));
+    api.createItem(newItem).then(() => {
+      this.closeAddNewModal();
+      this.updateItemsList();
+    });
   };
 
   handleItemDelete = id => {
     this.setState(oldState => ({
-      list: oldState.list.filter(item => item.id !== id)
+      list: oldState.list.filter(i => i.id !== id)
     }));
+    api.deleteItem(id);
   };
 
   render() {
