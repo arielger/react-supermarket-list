@@ -1,0 +1,9 @@
+.supermarket-list {
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.supermarket-list__empty-message {
+  color: rgba(0, 0, 0, 0.4);
+  margin: 80px 0;
+}

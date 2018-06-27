@@ -1,0 +1,35 @@
+.supermarket-item {
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  padding: 14px 20px;
+}
+
+.supermarket-item__text {
+  margin: 0;
+  font-size: 18px;
+}
+
+.supermarket-item__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.supermarket-item__button > svg {
+  width: 18px;
+  fill: rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+}
+
+.supermarket-item__button:hover > svg,
+.supermarket-item__button:focus > svg {
+  fill: #e84118;
+  transform: scale(1.1);
+}
