@@ -8,7 +8,6 @@
     "random-int": "^1.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-modal": "^3.4.5",
     "react-scripts": "1.1.4",
     "shortid": "^2.2.8"
   },

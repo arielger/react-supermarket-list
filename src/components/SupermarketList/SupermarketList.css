@@ -3,7 +3,13 @@
   margin: 0 0 20px 0;
 }
 
+.supermarket-list__placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .supermarket-list__empty-message {
   color: rgba(0, 0, 0, 0.4);
-  margin: 40px 0;
 }

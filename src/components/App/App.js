@@ -8,7 +8,10 @@ import "./App.css";
 class App extends Component {
   state = {
     list: [],
-    isAddNewModalOpen: false
+    isListLoading: false,
+    modalText: "",
+    isModalOpen: false,
+    isModalLoading: false
   };
 
   componentDidMount() {
@@ -16,10 +19,17 @@ class App extends Component {
   }
 
   updateItemsList() {
+    this.setState({
+      isListLoading: true
+    });
+
     api
       .getItems()
       .then(list => {
-        this.setState({ list });
+        this.setState({
+          isListLoading: false,
+          list
+        });
       })
       .catch(error => {
         console.error(error);
@@ -27,33 +37,57 @@ class App extends Component {
   }
 
   openAddNewModal = () => {
-    this.setState({ isAddNewModalOpen: true });
+    this.setState({ isModalOpen: true });
   };
 
   closeAddNewModal = () => {
-    this.setState({ isAddNewModalOpen: false });
+    this.setState({
+      isModalOpen: false,
+      modalText: ""
+    });
   };
 
-  addNewItem = text => {
+  handleModalTextChange = e => {
+    const maxTextLength = 50;
+    this.setState({ modalText: e.target.value.substring(0, maxTextLength) });
+  };
+
+  handleItemAdd = event => {
+    event.preventDefault();
+
+    this.setState({ isModalLoading: true });
+
     const newItem = {
-      text,
+      text: this.state.modalText.trim(),
       id: shortid.generate()
     };
 
-    this.setState(oldState => ({
-      list: oldState.list.concat(newItem)
-    }));
-    api.createItem(newItem).then(() => {
-      this.closeAddNewModal();
-      this.updateItemsList();
-    });
+    api
+      .createItem(newItem)
+      .then(item => {
+        this.setState(prevState => ({
+          isModalOpen: false,
+          isModalLoading: false,
+          modalText: "",
+          list: prevState.list.concat(item)
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   handleItemDelete = id => {
     this.setState(oldState => ({
-      list: oldState.list.filter(i => i.id !== id)
+      list: oldState.list.map(
+        item => (item.id === id ? { ...item, isLoading: true } : item)
+      )
     }));
-    api.deleteItem(id);
+    api.deleteItem(id).then(item => {
+      this.setState(oldState => ({
+        list: oldState.list.filter(i => i.id !== item.id)
+      }));
+    });
   };
 
   render() {
@@ -68,17 +102,22 @@ class App extends Component {
             : "No items"}
         </span>
         <SupermarketList
+          isLoading={this.state.isListLoading}
           list={this.state.list}
           handleItemDelete={this.handleItemDelete}
         />
         <button onClick={this.openAddNewModal} className="add-item-btn">
           Add item
         </button>
-        <AddNewModal
-          isOpen={this.state.isAddNewModalOpen}
-          handleSubmit={this.addNewItem}
-          handleClose={this.closeAddNewModal}
-        />
+        {this.state.isModalOpen && (
+          <AddNewModal
+            isLoading={this.state.isModalLoading}
+            itemText={this.state.modalText}
+            handleSubmit={this.handleItemAdd}
+            handleClose={this.closeAddNewModal}
+            handleTextChange={this.handleModalTextChange}
+          />
+        )}
       </div>
     );
   }

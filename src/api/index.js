@@ -15,17 +15,19 @@ export const createItem = item => {
     setTimeout(() => {
       const newList = getList().concat(item);
       localStorage.setItem("list", JSON.stringify(newList));
-      resolve();
+      resolve(item);
     }, getRandomDelay());
   });
 };
 
 export const deleteItem = itemId => {
+  const item = getList().find(item => item.id === itemId);
+
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const newList = getList().filter(i => i.id !== itemId);
       localStorage.setItem("list", JSON.stringify(newList));
-      resolve();
+      resolve(item);
     }, getRandomDelay());
   });
 };
