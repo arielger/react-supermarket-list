@@ -1,4 +1,3 @@
-import delay from "delay";
 import randomInt from "random-int";
 
 const getList = () => {
@@ -7,7 +6,11 @@ const getList = () => {
 const getRandomDelay = () => randomInt(500, 1000);
 
 export const getItems = () => {
-  return delay(getRandomDelay(), getList());
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(getList());
+    }, getRandomDelay());
+  });
 };
 
 export const createItem = item => {
