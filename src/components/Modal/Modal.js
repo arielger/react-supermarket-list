@@ -17,14 +17,6 @@ class Modal extends Component {
     }
   };
 
-  componentDidMount() {
-    document.addEventListener("click", this.handleModalClick);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleModalClick);
-  }
-
   render() {
     const { isLoading, children } = this.props;
 
