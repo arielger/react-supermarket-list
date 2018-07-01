@@ -27,16 +27,14 @@ class AddNewModal extends Component {
       <Modal handleClose={handleClose} isLoading={isLoading}>
         <form className="add-new-modal__form" onSubmit={handleSubmit}>
           <h3 className="add-new-modal__title">Add item</h3>
-          <div className="add-new-modal__form-group">
-            <input
-              className="add-new-modal__input"
-              type="text"
-              name="item"
-              value={itemText}
-              onChange={handleTextChange}
-              ref={this.inputRef}
-            />
-          </div>
+          <input
+            className="add-new-modal__input"
+            type="text"
+            name="item"
+            value={itemText}
+            onChange={handleTextChange}
+            ref={this.inputRef}
+          />
           <div className="add-new-modal__buttons">
             <button
               type="button"
